@@ -1,38 +1,74 @@
 import { NextRequest, NextResponse } from "next/server";
 import nodemailer from "nodemailer";
+import { supabase } from "@/lib/supabase";
 
 export async function POST(request: NextRequest) {
   try {
-    const { firstName, lastName, email, phone, message } = await request.json();
+    const body = await request.json();
+    const { firstName, lastName, email, phone, message } = body;
 
-    // Create transporter
+    // Basic validation
+    if (!firstName || !lastName || !email || !message) {
+      return NextResponse.json(
+        { message: "Missing required fields" },
+        { status: 400 }
+      );
+    }
+
+    /* ------------------ SAVE TO SUPABASE ------------------ */
+    const { error: dbError } = await supabase.from("contacts").insert([
+      {
+        first_name: firstName,
+        last_name: lastName,
+        email,
+        phone,
+        message,
+      },
+    ]);
+
+    if (dbError) {
+      console.error("Supabase error:", dbError);
+      throw new Error("Failed to save contact");
+    }
+
+    /* ------------------ SEND EMAIL ------------------ */
+    if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+      throw new Error("Email credentials missing");
+    }
+
     const transporter = nodemailer.createTransport({
-      service: "gmail", // or your email service
+      service: "gmail",
       auth: {
-        user: process.env.EMAIL_USER, // your email
-        pass: process.env.EMAIL_PASS, // your email password or app password
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
       },
     });
 
-    // Email options
-    const mailOptions = {
-      from: process.env.EMAIL_USER,
-      to: process.env.RECIPIENT_EMAIL || "your-email@example.com", // replace with your email
+    await transporter.sendMail({
+      from: `"Nurture PNW Staffing" <${process.env.EMAIL_USER}>`,
+      to: process.env.RECIPIENT_EMAIL || process.env.EMAIL_USER,
       subject: "New Quote Request from Nurture PNW Staffing",
-      text: `First Name: ${firstName}\nLast Name: ${lastName}\nEmail: ${email}\nPhone: ${phone}\nMessage: ${message}`,
-    };
-
-    // Send email
-    await transporter.sendMail(mailOptions);
+      text: `
+First Name: ${firstName}
+Last Name: ${lastName}
+Email: ${email}
+Phone: ${phone}
+Message: ${message}
+      `,
+    });
 
     return NextResponse.json(
-      { message: "Email sent successfully" },
+      { message: "Contact saved & email sent successfully" },
       { status: 200 }
     );
-  } catch (error) {
-    console.error("Error sending email:", error);
+  } catch (error: any) {
+    console.error("CONTACT API ERROR:", error);
+
     return NextResponse.json(
-      { message: "Error sending email" },
+      {
+        message: "Internal Server Error",
+        error: error.message,
+      },
       { status: 500 }
     );
   }

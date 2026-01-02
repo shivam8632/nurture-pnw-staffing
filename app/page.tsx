@@ -8,15 +8,11 @@ import 'swiper/css/pagination';
 import {
   Building2,
   ShieldCheck,
-  ClipboardCheck,
   CheckCircle2,
-  HeartPulse,
   MapPin,
   Phone,
   PhoneCall,
-  HeartHandshake,
   Clock,
-  Stethoscope,
   Users,
   ArrowRight,
   Check,
@@ -26,7 +22,6 @@ import {
 } from "lucide-react"
 
 import Image from 'next/image';
-import Link from 'next/link';
 import Banner2 from "../public/banner2.jpg"
 import Banner3 from "../public/banner3.jpg"
 
@@ -679,20 +674,44 @@ export default function Home() {
 
                   <form className="space-y-4" onSubmit={handleSubmit}>
                     <div className="grid md:grid-cols-2 gap-4">
-                      <Input placeholder="First Name *" required />
-                      <Input placeholder="Last Name *" required />
+                      <Input
+                        name="first-name"
+                        placeholder="First Name *"
+                        required
+                      />
+                      <Input
+                        name="last-name"
+                        placeholder="Last Name *"
+                        required
+                      />
                     </div>
-                    <Input type="email" placeholder="Email *" required />
-                    <Input value="206-697-4413" readOnly />
+
+                    <Input
+                      type="email"
+                      name="email"
+                      placeholder="Email *"
+                      required
+                    />
+
+                    <Input
+                      type="tel"
+                      name="phone"
+                      placeholder="Phone *"
+                      required
+                    />
+
                     <Textarea
+                      name="message"
                       placeholder="Tell us about your staffing needs (facility type, number of positions, special requirements, etc.) *"
                       required
                       rows={4}
                     />
+
                     <Button size="lg" className="w-full">
                       Request Free Quote
                     </Button>
                   </form>
+
 
                   <p className="text-sm text-slate-500 mt-4 text-center">
                     No commitment required. We'll respond within 24 hours.
