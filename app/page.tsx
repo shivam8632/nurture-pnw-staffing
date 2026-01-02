@@ -29,12 +29,20 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
+import { HealthcareLoader } from "@/components/ui/healthcare-loader"
+import { useState } from 'react'
+import { toast } from 'react-toastify'
 
 
 export default function Home() {
+  const [isLoading, setIsLoading] = useState(true);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
+    setIsLoading(true);
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
     const data = {
       firstName: formData.get('first-name'),
       lastName: formData.get('last-name'),
@@ -44,7 +52,7 @@ export default function Home() {
     };
 
     try {
-      const response = await fetch('/api/contact', {
+      const res = await fetch('/api/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -52,14 +60,18 @@ export default function Home() {
         body: JSON.stringify(data),
       });
 
-      if (response.ok) {
-        alert('Form submitted successfully!');
-      } else {
-        alert('Error submitting form.');
+      const result = await res.json();
+
+      if (!res.ok) {
+        throw new Error(result.message || 'Something went wrong');
       }
-    } catch (error) {
-      console.error('Error:', error);
-      alert('Error submitting form.');
+
+      toast.success('Request submitted successfully!');
+      form.reset(); // ✅ SAFE
+    } catch (err: any) {
+      toast.error(`${err.message || 'Failed to submit form'}`);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -71,7 +83,14 @@ export default function Home() {
 
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 font-sans">
+    <div className="min-h-screen bg-slate-50 text-slate-800 font-sans relative">
+      {/* Full-screen loader overlay */}
+      {isLoading && (
+        <div className="fixed inset-0 bg-white/50 bg-opacity-90 flex items-center justify-center z-50 animate-fadeInOut">
+          <HealthcareLoader />
+        </div>
+      )}
+
       <Header />
       <main className="w-full mx-auto">
         <div className="container">
@@ -678,11 +697,13 @@ export default function Home() {
                         name="first-name"
                         placeholder="First Name *"
                         required
+                        disabled={isLoading}
                       />
                       <Input
                         name="last-name"
                         placeholder="Last Name *"
                         required
+                        disabled={isLoading}
                       />
                     </div>
 
@@ -691,6 +712,7 @@ export default function Home() {
                       name="email"
                       placeholder="Email *"
                       required
+                      disabled={isLoading}
                     />
 
                     <Input
@@ -698,6 +720,7 @@ export default function Home() {
                       name="phone"
                       placeholder="Phone *"
                       required
+                      disabled={isLoading}
                     />
 
                     <Textarea
@@ -705,9 +728,10 @@ export default function Home() {
                       placeholder="Tell us about your staffing needs (facility type, number of positions, special requirements, etc.) *"
                       required
                       rows={4}
+                      disabled={isLoading}
                     />
 
-                    <Button size="lg" className="w-full">
+                    <Button size="lg" className="w-full" disabled={isLoading}>
                       Request Free Quote
                     </Button>
                   </form>

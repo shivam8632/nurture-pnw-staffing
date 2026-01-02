@@ -4,17 +4,26 @@ import Footer from '../Footer';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
+import { HealthcareLoader } from '@/components/ui/healthcare-loader';
+import { useState } from 'react';
+import { toast } from 'react-toastify';
 
 export default function Contact() {
+    const [isLoading, setIsLoading] = useState(false);
+
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        const formData = new FormData(e.currentTarget);
+        setIsLoading(true);
+
+        const form = e.currentTarget;
+        const formData = new FormData(form);
+
         const data = {
-            firstName: formData.get('first-name'),
-            lastName: formData.get('last-name'),
-            email: formData.get('email'),
-            phone: formData.get('phone'),
-            message: formData.get('message'),
+            firstName: String(formData.get('first-name') || ''),
+            lastName: String(formData.get('last-name') || ''),
+            email: String(formData.get('email') || ''),
+            phone: String(formData.get('phone') || ''),
+            message: String(formData.get('message') || ''),
         };
 
         try {
@@ -26,19 +35,32 @@ export default function Contact() {
                 body: JSON.stringify(data),
             });
 
-            if (response.ok) {
-                alert('Form submitted successfully!');
-            } else {
-                alert('Error submitting form.');
+            const result = await response.json();
+
+            if (!response.ok) {
+                throw new Error(result.message || 'Failed to submit form');
             }
-        } catch (error) {
+
+            toast.success('Form submitted successfully!');
+            form.reset(); // ✅ always safe
+        } catch (error: any) {
             console.error('Error:', error);
-            alert('Error submitting form.');
+            toast.error(error.message || 'Error submitting form. Please try again.');
+        } finally {
+            setIsLoading(false);
         }
     };
 
+
     return (
-        <div className="min-h-screen bg-slate-50 text-slate-800 font-sans">
+        <div className="min-h-screen bg-slate-50 text-slate-800 font-sans relative">
+            {/* Full-screen loader overlay */}
+            {isLoading && (
+                <div className="fixed inset-0 bg-white/50 backdrop-blur-sm flex items-center justify-center z-50">
+                    <HealthcareLoader />
+                </div>
+            )}
+
             <Header />
             <main className="w-full max-w-4xl mx-auto px-4 py-8">
                 <div className="container">
@@ -59,13 +81,25 @@ export default function Contact() {
                                             <label htmlFor="first-name" className="block text-sm font-medium text-zinc-700 mb-2">
                                                 First Name *
                                             </label>
-                                            <Input type="text" id="first-name" name="first-name" required />
+                                            <Input
+                                                type="text"
+                                                id="first-name"
+                                                name="first-name"
+                                                required
+                                                disabled={isLoading}
+                                            />
                                         </div>
                                         <div>
                                             <label htmlFor="last-name" className="block text-sm font-medium text-zinc-700 mb-2">
                                                 Last Name
                                             </label>
-                                            <Input type="text" id="last-name" name="last-name" required />
+                                            <Input
+                                                type="text"
+                                                id="last-name"
+                                                name="last-name"
+                                                required
+                                                disabled={isLoading}
+                                            />
                                         </div>
                                     </div>
 
@@ -73,24 +107,45 @@ export default function Contact() {
                                         <label htmlFor="email" className="block text-sm font-medium text-zinc-700 mb-2">
                                             Email *
                                         </label>
-                                        <Input type="email" id="email" name="email" required />
+                                        <Input
+                                            type="email"
+                                            id="email"
+                                            name="email"
+                                            required
+                                            disabled={isLoading}
+                                        />
                                     </div>
 
                                     <div>
                                         <label htmlFor="phone" className="block text-sm font-medium text-zinc-700 mb-2">
                                             Phone *
                                         </label>
-                                        <Input type="tel" id="phone" name="phone" value="206-697-4413" readOnly />
+                                        <Input
+                                            type="tel"
+                                            id="phone"
+                                            name="phone"
+                                            value="206-697-4413"
+                                            readOnly
+                                            disabled={isLoading}
+                                        />
                                     </div>
 
                                     <div>
                                         <label htmlFor="message" className="block text-sm font-medium text-zinc-700 mb-2">
                                             Message *
                                         </label>
-                                        <Textarea id="message" name="message" required rows={5} />
+                                        <Textarea
+                                            id="message"
+                                            name="message"
+                                            required
+                                            rows={5}
+                                            disabled={isLoading}
+                                        />
                                     </div>
 
-                                    <Button type="submit" className="w-full">Send Message</Button>
+                                    <Button type="submit" className="w-full" disabled={isLoading}>
+                                        {isLoading ? "Sending..." : "Send Message"}
+                                    </Button>
                                 </form>
                             </div>
                         </div>

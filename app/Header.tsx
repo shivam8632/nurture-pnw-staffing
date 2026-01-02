@@ -27,10 +27,10 @@ export default function Header() {
                         <NavigationMenuList className="hidden md:flex items-center gap-2">
                             {[
                                 { name: "Home", href: "/" },
-                                { name: "Services", href: "#services" },
-                                { name: "About", href: "#about" },
-                                { name: "Careers", href: "#careers" },
-                                { name: "Contact", href: "#contact" },
+                                { name: "Services", href: "/services" },
+                                { name: "About", href: "/about" },
+                                { name: "Careers", href: "/careers" },
+                                { name: "Contact", href: "/contact" },
                             ].map((item) => (
                                 <NavigationMenuItem key={item.name}>
                                     <NavigationMenuLink
