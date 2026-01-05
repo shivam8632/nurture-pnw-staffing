@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
 
     await transporter.sendMail({
       from: `"Nurture PNW Staffing" <${process.env.EMAIL_USER}>`,
-      to: process.env.RECIPIENT_EMAIL || process.env.EMAIL_USER,
+      to: process.env.EMAIL_USER,
       subject: "New Quote Request from Nurture PNW Staffing",
       text: `
 First Name: ${firstName}

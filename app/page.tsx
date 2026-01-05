@@ -22,8 +22,17 @@ import {
 } from "lucide-react"
 
 import Image from 'next/image';
+import Banner1 from "../public/banner_1.webp"
 import Banner2 from "../public/banner2.jpg"
 import Banner3 from "../public/banner3.jpg"
+import Care1 from "../public/care-1.webp"
+import Care2 from "../public/care-2.webp"
+import Care3 from "../public/care-3.webp"
+import PersonalisedImg from "../public/personalised-img.webp"
+import MissionImg from "../public/mission-img.webp"
+import CaregiverImg from "../public/caregiver-img.jpg"
+import LeadersImg from "../public/leaders-img.jpg"
+import QuoteBgImg from "../public/quote-img.jpg"
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -76,7 +85,7 @@ export default function Home() {
   };
 
   const heroImages = [
-    "https://html.softcrafty.com/medice/images/hero/hero-thumb1_1.png",
+    Banner1.src,
     Banner2.src,
     Banner3.src,
   ];
@@ -275,14 +284,14 @@ export default function Home() {
               <div className="relative">
 
                 {/* Vertical watermark */}
-                <span className="absolute -left-16 top-20 rotate-[-90deg] text-6xl font-bold text-emerald-100 tracking-widest select-none">
-                  MEDICE
+                <span className="absolute z-10 -left-16 top-25 opacity-50 rotate-[-90deg] text-6xl font-bold text-emerald-100 tracking-widest select-none">
+                  MEDICINE
                 </span>
 
                 {/* Image wrapper */}
                 <div className="relative w-full h-[520px] clip-polygon bg-emerald-900 overflow-hidden">
                   <Image
-                    src="https://picsum.photos/600/800?random=20"
+                    src={LeadersImg}
                     alt="Medical professional"
                     fill
                     className="object-cover opacity-80"
@@ -408,9 +417,9 @@ export default function Home() {
 
             <div className="grid md:grid-cols-3 gap-8">
               {[
-                "https://html.softcrafty.com/medice/images/blog/blog-thumb1_1.png",
-                "https://html.softcrafty.com/medice/images/wcu/wcu-thumb2_1.png",
-                "https://html.softcrafty.com/medice/images/project/project-thumb1_5.png",
+                Care1.src,
+                Care2.src,
+                Care3.src,
               ].map((src, index) => (
                 <div key={index} className="relative h-72 rounded-xl overflow-hidden shadow-md">
                   <Image
@@ -452,7 +461,7 @@ export default function Home() {
               {/* LEFT IMAGE */}
               <div className="relative h-[420px] lg:h-[520px]">
                 <Image
-                  src="https://html.softcrafty.com/medice/images/wcu/wcu-thumb1_1.png"
+                  src={PersonalisedImg}
                   alt="Personalized Treatment"
                   fill
                   className="object-cover"
@@ -512,7 +521,7 @@ export default function Home() {
               {/* Image */}
               <div className="relative h-[420px] rounded-2xl overflow-hidden shadow-lg">
                 <Image
-                  src="https://html.softcrafty.com/medice/images/service/medical-service1_1.png"
+                  src={MissionImg}
                   alt="Caregiver supporting senior patient"
                   fill
                   className="object-cover"
@@ -571,7 +580,7 @@ export default function Home() {
 
               <div className="relative">
                 <Image
-                  src="https://html.softcrafty.com/medice/images/service/service-thumb1_1.png"
+                  src={CaregiverImg}
                   alt="Professional caregiver documentation"
                   width={600}
                   height={400}
@@ -648,12 +657,12 @@ export default function Home() {
           <section className="py-20 px-4 md:px-6 lg:px-20 relative overflow-hidden">
             <div className="absolute inset-0">
               <Image
-                src="https://html.softcrafty.com/medice/images/appointment/appointment-thumb1_1.png"
+                src={QuoteBgImg}
                 alt="Healthcare professionals collaborating"
                 fill
                 className="object-cover"
               />
-              <div className="absolute inset-0 bg-slate-900/50"></div>
+              <div className="absolute inset-0 bg-slate-900/65"></div>
             </div>
 
             <div className="relative z-10 max-w-6xl mx-auto">
