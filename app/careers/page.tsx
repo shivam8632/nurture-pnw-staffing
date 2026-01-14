@@ -55,7 +55,6 @@ export default function Careers() {
                                 <div className="flex flex-wrap gap-2 mb-4">
                                     <span className="bg-[#033c7b]/10 text-[#033c7b] px-3 py-1 rounded-full text-sm">Full-time</span>
                                     <span className="bg-[#10b981]/10 text-[#10b981] px-3 py-1 rounded-full text-sm">Part-time</span>
-                                    <span className="bg-[#033c7b]/10 text-[#033c7b] px-3 py-1 rounded-full text-sm">$18-25/hr</span>
                                 </div>
                                 <p className="text-sm text-zinc-500">Locations: Seattle, Bellevue, Tacoma</p>
                             </div>
@@ -66,7 +65,6 @@ export default function Careers() {
                                 <div className="flex flex-wrap gap-2 mb-4">
                                     <span className="bg-[#033c7b]/10 text-[#033c7b] px-3 py-1 rounded-full text-sm">Full-time</span>
                                     <span className="bg-[#10b981]/10 text-[#10b981] px-3 py-1 rounded-full text-sm">Part-time</span>
-                                    <span className="bg-[#033c7b]/10 text-[#033c7b] px-3 py-1 rounded-full text-sm">$16-22/hr</span>
                                 </div>
                                 <p className="text-sm text-zinc-500">Locations: Throughout Puget Sound region</p>
                             </div>
@@ -77,7 +75,6 @@ export default function Careers() {
                                 <div className="flex flex-wrap gap-2 mb-4">
                                     <span className="bg-[#10b981]/10 text-[#10b981] px-3 py-1 rounded-full text-sm">Part-time</span>
                                     <span className="bg-[#033c7b]/10 text-[#033c7b] px-3 py-1 rounded-full text-sm">Per Diem</span>
-                                    <span className="bg-[#033c7b]/10 text-[#033c7b] px-3 py-1 rounded-full text-sm">$15-20/hr</span>
                                 </div>
                                 <p className="text-sm text-zinc-500">Locations: Seattle metro area</p>
                             </div>

@@ -169,7 +169,7 @@ export default function Home() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
 
               {/* Schedule Hours */}
-              <div className="rounded-2xl bg-emerald-50 p-8 shadow-md hover:shadow-xl transition-all">
+              <div className="rounded-2xl bg-emerald-50 p-8 shadow-md hover:shadow-xl transition-all relative">
                 <div className="flex items-start justify-between mb-6">
                   <h3 className="text-xl font-semibold text-slate-900">
                     Schedule Hours
@@ -181,10 +181,9 @@ export default function Home() {
 
                 <div className="space-y-3 text-sm text-slate-700">
                   {[
-                    ["Monday - Thursday", "08:00 - 18:00"],
-                    ["Friday", "09:00 - 17:00"],
-                    ["Saturday", "07:30 - 20:30"],
-                    ["Sunday", "08:30 - 19:30"],
+                    ["Monday - Friday", "08:00 AM - 06:00 PM"],
+                    ["Saturday", "09:00 AM - 04:00 PM"],
+                    ["Sunday", "Closed"],
                   ].map(([day, time]) => (
                     <div key={day} className="flex justify-between">
                       <span className="font-medium">{day}</span>
@@ -193,10 +192,12 @@ export default function Home() {
                   ))}
                 </div>
 
-                <Button className="mt-8 w-full bg-emerald-700 hover:bg-emerald-800 flex items-center justify-between">
-                  24/7 Service For Emergencies
-                  <ArrowRight className="h-4 w-4" />
-                </Button>
+                <div className='absolute bottom-8 left-0 right-0 w-[calc(100%-4rem)] mx-auto'>
+                  <Button className="mt-8 w-full bg-emerald-700 hover:bg-emerald-800 flex items-center justify-between">
+                    24/7 Service For Emergencies
+                    <ArrowRight className="h-4 w-4" />
+                  </Button>
+                </div>
               </div>
 
               {/* Location Details */}
@@ -299,12 +300,12 @@ export default function Home() {
                 </div>
 
                 {/* Experience badge */}
-                <div className="absolute bottom-8 right-8 bg-emerald-100 px-6 py-8 rounded-t-full rounded-br-full shadow-lg text-center">
+                {/* <div className="absolute bottom-8 right-8 bg-emerald-100 px-6 py-8 rounded-t-full rounded-br-full shadow-lg text-center">
                   <h3 className="text-4xl font-bold text-slate-900">14</h3>
                   <p className="text-xs uppercase tracking-wide text-slate-700 mt-1">
                     Years of <br /> Experience
                   </p>
-                </div>
+                </div> */}
               </div>
 
               {/* RIGHT CONTENT */}
